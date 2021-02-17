@@ -1,0 +1,261 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Schedule &#8212; StuyUtils  documentation</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Errors" href="errors.html" />
+    <link rel="prev" title="Welcome to StuyUtils’s documentation!" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="schedule">
+<h1>Schedule<a class="headerlink" href="#schedule" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<dl class="py function">
+<dt id="stuy_utils.schedule.convert_to_isoformat">
+<code class="sig-prename descclassname">stuy_utils.schedule.</code><code class="sig-name descname">convert_to_isoformat</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">day</span></em><span class="sig-paren">)</span><a class="headerlink" href="#stuy_utils.schedule.convert_to_isoformat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a date object to an ISO-formatted date string.</p>
+<p>Convert a date or datetime object from the datetime library to a string formatted using the ISO 8601 format, while also checking if ‘date’ is a valid date and if it exists in the data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>day</strong> (Union[<cite>datetime.date</cite>, <cite>datetime.datetime</cite>]) – A date or datetime object from the datetime library.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="errors.html#stuy_utils.errors.InvalidDate" title="stuy_utils.errors.InvalidDate"><strong>errors.InvalidDate</strong></a> – Thrown if the input is not a date or a datetime object.</p></li>
+<li><p><a class="reference internal" href="errors.html#stuy_utils.errors.DayNotInData" title="stuy_utils.errors.DayNotInData"><strong>errors.DayNotInData</strong></a> – Thrown if the inputted day is not in term_days.csv.</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A date using the ISO 8601 format (yyyy-mm-dd).</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="stuy_utils.schedule.get_day_info">
+<code class="sig-prename descclassname">stuy_utils.schedule.</code><code class="sig-name descname">get_day_info</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">day</span></em><span class="sig-paren">)</span><a class="headerlink" href="#stuy_utils.schedule.get_day_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns information about a given day.</p>
+<p>Returns the cycle (A/B), period (1-5/6-10), testing subjects, and any events of a given day. If a category does not apply, an empty string will be returned.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>day</strong> (Union[<cite>datetime.date</cite>, <cite>datetime.datetime</cite>]) – A date or datetime object from the datetime library.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="errors.html#stuy_utils.errors.InvalidDate" title="stuy_utils.errors.InvalidDate"><strong>errors.InvalidDate</strong></a> – Thrown if the input is not a date or a datetime object.</p></li>
+<li><p><a class="reference internal" href="errors.html#stuy_utils.errors.DayNotInData" title="stuy_utils.errors.DayNotInData"><strong>errors.DayNotInData</strong></a> – Thrown if the inputted day is not in term_days.csv.</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A namedtuple with the fields ‘cycle’, ‘period’, ‘testing’ and ‘event’.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><cite>Info</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="stuy_utils.schedule.get_next_school_day">
+<code class="sig-prename descclassname">stuy_utils.schedule.</code><code class="sig-name descname">get_next_school_day</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">day</span></em>, <em class="sig-param"><span class="n">force_next</span></em>, <em class="sig-param"><span class="n">always_same</span></em><span class="sig-paren">)</span><a class="headerlink" href="#stuy_utils.schedule.get_next_school_day" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns when the next school day is.</p>
+<p>Returns a date object of the next school day from the given day. The given datetime will be returned as a date if school is still in session (can be changed with the ‘force_next’ parameter).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>day</strong> (Union[<cite>datetime.date</cite>, <cite>datetime.datetime</cite>]) – A date or datetime object from the datetime library.</p></li>
+<li><p><strong>force_next</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether or not to always return a school day after the given day. Defaults to False.</p></li>
+<li><p><strong>always_same</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether or not to always return the given day if the given day is a school day. Defaults to False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="errors.html#stuy_utils.errors.InvalidDate" title="stuy_utils.errors.InvalidDate"><strong>errors.InvalidDate</strong></a> – Thrown if the input is not a date or a datetime object.</p></li>
+<li><p><a class="reference internal" href="errors.html#stuy_utils.errors.DayNotInData" title="stuy_utils.errors.DayNotInData"><strong>errors.DayNotInData</strong></a> – Thrown if the inputted day is not in term_days.csv.</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A date object with the year, month, and day of the next school day.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><cite>datetime.date</cite>, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="stuy_utils.schedule.get_bell_schedule">
+<code class="sig-prename descclassname">stuy_utils.schedule.</code><code class="sig-name descname">get_bell_schedule</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">day</span></em><span class="sig-paren">)</span><a class="headerlink" href="#stuy_utils.schedule.get_bell_schedule" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the bell periods of the next school day.</p>
+<p>Returns a dictionary of bell periods of the next school day. If the given day is a school day, then the bell schedule of that day will be returned, even if it is afterschool.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>day</strong> (Union[<cite>datetime.date</cite>, <cite>datetime.datetime</cite>]) – A date or datetime object from the datetime library.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="errors.html#stuy_utils.errors.InvalidDate" title="stuy_utils.errors.InvalidDate"><strong>errors.InvalidDate</strong></a> – Thrown if the input is not a date or a datetime object.</p></li>
+<li><p><a class="reference internal" href="errors.html#stuy_utils.errors.DayNotInData" title="stuy_utils.errors.DayNotInData"><strong>errors.DayNotInData</strong></a> – Thrown if the inputted day is not in term_days.csv.</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A dictionary of keys ‘period_1’, ‘passing_1’, ‘period_2’, ‘passing_2’, … ‘period_5’, ‘passing_5’, ‘office_hours’, and ‘ais_tutoring’, and values of Time namedtuple objects with fields ‘start’ and ‘end’, which returns a datetime object.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Dict[str, time]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="stuy_utils.schedule.get_current_class">
+<code class="sig-prename descclassname">stuy_utils.schedule.</code><code class="sig-name descname">get_current_class</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">day</span></em><span class="sig-paren">)</span><a class="headerlink" href="#stuy_utils.schedule.get_current_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns information of the current class.</p>
+<p>Returns a tuple of information of the current class, where the first element is a string of the category, such as the class period, and a <cite>Time</cite> namedtuple object, which includes when said period starts and ends.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>day</strong> (<cite>datetime.date</cite>) – A datetime object from the datetime library.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="errors.html#stuy_utils.errors.InvalidDate" title="stuy_utils.errors.InvalidDate"><strong>errors.InvalidDate</strong></a> – Thrown if the input is not a date or a datetime object.</p></li>
+<li><p><a class="reference internal" href="errors.html#stuy_utils.errors.DayNotInData" title="stuy_utils.errors.DayNotInData"><strong>errors.DayNotInData</strong></a> – Thrown if the inputted day is not in term_days.csv.</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A tuple of a string of either ‘period_1’, ‘passing_1’, ‘period_2’, ‘passing_2’, … ‘period_5’, ‘pasing_5’, ‘office_hours’, and ‘ais_tutoring’, and a <cite>Time</cite> namedtuple object with fields ‘start’ and ‘end’, which returns a datetime object.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Tuple[str, time], optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="stuy_utils.schedule.get_next_class">
+<code class="sig-prename descclassname">stuy_utils.schedule.</code><code class="sig-name descname">get_next_class</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">day</span></em><span class="sig-paren">)</span><a class="headerlink" href="#stuy_utils.schedule.get_next_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns information of the next class.</p>
+<p>Returns a tuple of information of the next class, where the first element is a string of the category, such as the class period, and a <cite>Time</cite> namedtuple object, which includes when said period starts and ends.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>day</strong> (<cite>datetime.date</cite>) – A datetime object from the datetime library.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="errors.html#stuy_utils.errors.InvalidDate" title="stuy_utils.errors.InvalidDate"><strong>errors.InvalidDate</strong></a> – Thrown if the input is not a date or a datetime object.</p></li>
+<li><p><a class="reference internal" href="errors.html#stuy_utils.errors.DayNotInData" title="stuy_utils.errors.DayNotInData"><strong>errors.DayNotInData</strong></a> – Thrown if the inputted day is not in term_days.csv.</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A tuple of a string of either ‘period_1’, ‘passing_1’, ‘period_2’, ‘passing_2’, … ‘period_5’, ‘pasing_5’, ‘office_hours’, and ‘ais_tutoring’, and a <cite>Time</cite> namedtuple object with fields ‘start’ and ‘end’, which returns a datetime object.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Tuple[str, time], optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">StuyUtils</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Schedule</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="errors.html">Errors</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to StuyUtils’s documentation!</a></li>
+      <li>Next: <a href="errors.html" title="next chapter">Errors</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, Anthony Chen.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.4.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/schedule.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
