@@ -1,7 +1,0 @@
-stuy_utils
-==========
-
-.. toctree::
-   :maxdepth: 4
-
-   stuy_utils
