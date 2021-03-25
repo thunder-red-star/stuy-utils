@@ -13,8 +13,8 @@ from stuy_utils import errors
 Info = namedtuple("Info", ("cycle", "period", "testing", "event"))
 Time = namedtuple("Time", ("start", "end"))
 
-TERM_PATH = f"{Path(__file__).parent}\\data\\term_days.csv"
-BELL_PATH = f"{Path(__file__).parent}\\data\\bell_schedule.csv"
+TERM_PATH = f"{Path(__file__).parent}/data/term_days.csv"
+BELL_PATH = f"{Path(__file__).parent}/data/bell_schedule.csv"
 
 
 with open(TERM_PATH, "r") as term_csv, open(BELL_PATH, "r") as bell_csv:
