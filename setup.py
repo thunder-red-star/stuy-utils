@@ -7,12 +7,12 @@ with open("README.md", "r", encoding="utf-8") as fh:
 setuptools.setup(
     name="stuy_utils",
     version="0.0.3",
-    author="Anthony Chen",
-    author_email="anthonychen318@gmail.com",
+    author="Anthony Chen, ThunderRedStar",
+    author_email="anthonychen318@gmail.com, thunderredstar@gmail.com",
     description="Useful functions & utilities for Stuyvesant High School.",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/achen318/StuyUtils",
+    url="https://github.com/thunder-red-star/StuyUtils",
     packages=setuptools.find_packages(),
     package_data={"stuy_utils": ["data/*.csv"]},
     classifiers=[
