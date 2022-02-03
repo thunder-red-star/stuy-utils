@@ -130,8 +130,11 @@ def convert_to_isoformat(day: Union[date, dt]) -> str:
 
     iso_date = day.isoformat()
 
+    # if this code is not commented out, it will throw errors since TERM_DAYS is nonexistent.
+    """
     if iso_date not in TERM_DAYS:
         raise errors.DayNotInData(iso_date)
+    """
 
     return iso_date
 
@@ -156,7 +159,12 @@ def get_day_info(day: Union[date, dt]) -> Info:
         Info: A namedtuple with fields 'cycle', 'period', 'testing', and
         'event'.
     """
+
+    """
     return TERM_DAYS[convert_to_isoformat(day)]
+    """
+
+    return "This method is deprecated. Please don't use it until we update the term days database."
 
 
 def get_next_school_day(
@@ -332,3 +340,4 @@ def get_current_period(time: dt) -> Optional[str]:
         Optional[str]: A string of the category name (see data/bell_schedule.csv)
     """
 
+    return "This method is a work in progress."
