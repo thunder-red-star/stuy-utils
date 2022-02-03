@@ -3,7 +3,7 @@
 ThunderRedStar's fork of Anthony Chen's [StuyUtils](https://github.com/achen318/stuy-utils). Is updated for the 2021-22 spring semester and will have full feature set and more soon.
 
 ## Install
-To download this (updated) module, run ` install git+https://github.com/thunder-red-star/stuy-utils.git`
+To download this (updated) module, run `pip install git+https://github.com/thunder-red-star/stuy-utils.git`
 
 TODO:
 - [x] Implement the new schedules
