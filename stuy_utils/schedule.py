@@ -1,3 +1,5 @@
+"""Hey ACPlayGames, going through and using your comment format was a pain but I tried my best :hugging:."""
+
 """Functions for retriving schedule and day info of a day in the semester."""
 
 import csv
@@ -27,6 +29,47 @@ with open(TERM_PATH, "r") as term_csv, open(BELL_PATH, "r") as bell_csv:
                                     for element in row[1:]])
                      for row in list(csv.reader(bell_csv))[1:]}
 
+def convert_12h_to_24h(hours12: str) -> str:
+    """Converts a 12-hour time to a 24-hour time.
+
+    Converts a 12-hour time to a 24-hour time by adding 12 hours to the
+    hour if the time is in the PM.
+
+    Args:
+        hours12: A string representing a 12-hour time.
+        e.g "1:00 PM"
+
+    Raises:
+        errors.InvalidTime: Thrown if the input is not a string.
+        errors.InvalidTime: Thrown if the input isn't a 12 hour time (i.e. doesn't contain AM or PM, or hours > 12).
+
+    Returns:
+        str: A string representing a 24 hour time, with 0 prepended to the front of the time if the hour is less than 10.
+    """
+
+    if not isinstance(hours12, str):
+        raise errors.InvalidTime(hours12)
+
+    if "AM" in hours12 or "PM" in hours12:
+        hours12 = hours12.split(" ")[0]
+    else:
+        raise errors.InvalidTime(hours12)
+
+    if ":" not in hours12:
+        raise errors.InvalidTime(hours12)
+
+    hours, minutes = hours12.split(":")
+
+    if int(hours) > 12:
+        raise errors.InvalidTime(hours12)
+
+    if "PM" in hours12:
+        hours = str(int(hours) + 12)
+
+    if int(hours) < 10:
+        hours = f"0{hours}"
+
+    return f"{hours}:{minutes}"
 
 def convert_to_isoformat(day: Union[date, dt]) -> str:
     """Convert a date object to an ISO-formatted date string.
