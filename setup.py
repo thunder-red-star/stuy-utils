@@ -12,7 +12,7 @@ setuptools.setup(
     description="Useful functions & utilities for Stuyvesant High School.",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/thunder-red-star/StuyUtils",
+    url="https://github.com/thunder-red-star/stuy-utils",
     packages=setuptools.find_packages(),
     package_data={"stuy_utils": ["data/*.csv"]},
     classifiers=[
@@ -22,7 +22,8 @@ setuptools.setup(
     ],
     python_requires='>=3.7',
     data_files=[
-        ("bell_schedule", ["stuy_utils/data/bell_schedule.csv"]),
-        ("term_days", ["stuy_utils/data/term_days.csv"])
+        ("regular", ["stuy_utils/data/regular.tsv"]),
+        ("conference", ["stuy_utils/data/conference.tsv"]),
+        ("homeroom", ["stuy_utils/data/homeroom.tsv"]),
     ]
 )
