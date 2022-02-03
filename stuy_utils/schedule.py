@@ -122,7 +122,7 @@ def get_day_info(day: Union[date, dt]) -> Info:
         term_days.csv.
 
     Returns:
-        Info: A namedtule with fields 'cycle', 'period', 'testing', and
+        Info: A namedtuple with fields 'cycle', 'period', 'testing', and
         'event'.
     """
     return TERM_DAYS[convert_to_isoformat(day)]
