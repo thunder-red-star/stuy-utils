@@ -20,14 +20,15 @@ BELL_PATH = f"{Path(__file__).parent}/data/bell_schedule.csv"
 
 
 with open(TERM_PATH, "r") as term_csv, open(BELL_PATH, "r") as bell_csv:
+    """
     # {"2021-01-31": Info("", "", "", "Fall Grades Due"), ...}
     TERM_DAYS = {row[0]: Info(*row[1:])
-                 for row in list(csv.reader(term_csv))[1:]}
-
+                 for row in list(csv.reader(term_csv, delimiter='\t'))[1:]}
+    """
     # {"Period 1": Time(datetime.time(9, 10), datetime.time(10, 5)), ...}
     BELL_SCHEDULE = {row[0]: Time(*[time.fromisoformat(element)
                                     for element in row[1:]])
-                     for row in list(csv.reader(bell_csv))[1:]}
+                     for row in list(csv.reader(bell_csv, delimiter='\t'))[1:]}
 
 def convert_12h_to_24h(hours12: str) -> str:
     """Converts a 12-hour time to a 24-hour time.
@@ -70,6 +71,36 @@ def convert_12h_to_24h(hours12: str) -> str:
         hours = f"0{hours}"
 
     return f"{hours}:{minutes}"
+
+def convert_24h_to_minutes(hours24: str) -> int:
+    """Convert a 24-hour time to minutes.
+
+    Converts a 24-hour time to minutes by converting the hours and minutes
+
+    Args:
+        hours24: A string representing a 24-hour time.
+        e.g "13:00"
+
+    Raises:
+        errors.InvalidTime: Thrown if the input is not a string.
+        errors.InvalidTime: Thrown if the input isn't a 24 hour time (i.e. doesn't contain :, or hours > 24).
+
+    Returns:
+        int: The number of minutes since midnight.
+    """
+
+    if not isinstance(hours24, str):
+        raise errors.InvalidTime(hours24)
+
+    if ":" not in hours24:
+        raise errors.InvalidTime(hours24)
+
+    hours, minutes = hours24.split(":")
+
+    if int(hours) > 24:
+        raise errors.InvalidTime(hours24)
+
+    return int(hours) * 60 + int(minutes)
 
 def convert_to_isoformat(day: Union[date, dt]) -> str:
     """Convert a date object to an ISO-formatted date string.
@@ -281,3 +312,23 @@ def get_next_class(day: dt) -> Optional[Tuple[str, Time]]:
     """
 
     return "This method is deprecated. Please don't use it until we update the term days database."
+
+def get_current_period(time: dt) -> Optional[str]:
+    """Returns the current period.
+
+    Returns the current period, where the first element is a string of the
+    category, such as the class period, and a Time namedtuple object, which
+    includes when said period starts and ends.
+
+    Args:
+        time (datetime.datetime): A datetime object from the datetime library.
+
+    Raises:
+        errors.InvalidDate: Thrown if the input is not a datetime object.
+        errors.DayNotInData: Thrown if the inputted day is not in
+        term_days.csv.
+
+    Returns:
+        Optional[str]: A string of the category name (see data/bell_schedule.csv)
+    """
+
