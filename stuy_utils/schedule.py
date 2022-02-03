@@ -150,6 +150,8 @@ def get_next_school_day(
         Optional[datetime.date]: A date object with the year, month, and day
         of the next school day.
     """
+
+    """
     schedule_list = list(TERM_DAYS.items())
     day_index = list(TERM_DAYS).index(convert_to_isoformat(day))
 
@@ -169,6 +171,9 @@ def get_next_school_day(
             return date.fromisoformat(day_[0])
 
     return None
+    """
+
+    return "This method is deprecated. Please don't use it until we update the term days database."
 
 
 def get_bell_schedule(day: Union[date, dt]) -> Dict[str, Time]:
@@ -192,13 +197,16 @@ def get_bell_schedule(day: Union[date, dt]) -> Dict[str, Time]:
         (see data/bell_schedule.csv) and values of Time namedtuple objects with
         fields 'start' and 'end', which returns a datetime object.
     """
+
+    """
     return {cat[0]:  # key with category name (e.g. "Period 1")
             # Creates a Time namedtuple with the datetimes of the next school
             # day combined with the start and end times of the current category
             Time(*[dt.combine(get_next_school_day(day), time)
                    for time in cat[1]])  # Loop through the start and end times
             for cat in BELL_SCHEDULE.items()}  # Loop through the categories
-
+    """
+    return "This method is deprecated. Please don't use it until we update the term days database."
 
 def get_current_class(day: dt) -> Optional[Tuple[str, Time]]:
     """Returns information of the current class.
@@ -251,6 +259,8 @@ def get_next_class(day: dt) -> Optional[Tuple[str, Time]]:
         (see data/bell_schedule.csv), and a Time namedtuple object with fields
         'start' and 'end', which returns a datetime object.
     """
+
+    """
     current_class = get_current_class(day)
 
     # Checks if school is in session and there is a class after the current
@@ -268,3 +278,6 @@ def get_next_class(day: dt) -> Optional[Tuple[str, Time]]:
         return list(get_bell_schedule(get_next_school_day(day)).items())[0]
 
     return None
+    """
+
+    return "This method is deprecated. Please don't use it until we update the term days database."
