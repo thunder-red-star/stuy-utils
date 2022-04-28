@@ -1,4 +1,18 @@
-# StuyUtils
+# StuyUtils-fork
+
+ThunderRedStar's fork of Anthony Chen's [StuyUtils](https://github.com/achen318/stuy-utils). Is updated for the 2021-22 spring semester and will have full feature set and more soon.
+
+## Install
+To download this (updated) module, run `pip install git+https://github.com/thunder-red-star/stuy-utils.git`
+
+TODO:
+- [x] Implement the new schedules
+- [x] Add parsing for TSV
+- [ ] Add new Term Days
+- [x] Deprecate methods involving Term Days until updates are pushed
+- [ ] Add more features 
+
+# Original README:
 
 > Useful functions & utilities for Stuyvesant High School.
 
