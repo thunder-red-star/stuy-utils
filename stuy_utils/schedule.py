@@ -12,7 +12,7 @@ from typing import Dict, Optional, Tuple, Union
 
 from stuy_utils import errors
 
-Info = namedtuple("Info", ("cycle", "period", "testing", "event"))
+Info = namedtuple("Info", ("school", "cycle", "schedule", "testing", "events"))
 Time = namedtuple("Time", ("start", "end"))
 
 TERM_PATH = f"{Path(__file__).parent}/data/term_days.tsv"
@@ -153,8 +153,7 @@ def get_day_info(day: Union[date, dt]) -> Info:
         term_days.csv.
 
     Returns:
-        Info: A namedtuple with fields 'cycle', 'period', 'testing', and
-        'event'.
+        Info: A namedtuple with fields 'school', 'cycle', 'schedule', 'testing', and 'events'.
     """
 
     if not isinstance(day, date):
@@ -168,12 +167,13 @@ def get_day_info(day: Union[date, dt]) -> Info:
     if iso_date not in TERM_DAYS:
         raise errors.DayNotInData(iso_date)
 
-    # If any value is a string containing "None", it is converted to None
-    retTuple = Info(
+    ret_tuple = Info(
+        school=True if TERM_DAYS[iso_date]["school"] != "True" else False,
         cycle=TERM_DAYS[iso_date]["cycle"] if TERM_DAYS[iso_date]["cycle"] != "None" else None,
-        period=TERM_DAYS[iso_date]["period"] if TERM_DAYS[iso_date]["period"] != "None" else None,
+        schedule=TERM_DAYS[iso_date]["schedule"] if TERM_DAYS[iso_date]["schedule"] != "None" else None,
         testing=TERM_DAYS[iso_date]["testing"] if TERM_DAYS[iso_date]["testing"] != "None" else None,
-        event=TERM_DAYS[iso_date]["event"] if TERM_DAYS[iso_date]["event"] != "None" else None
+        events=TERM_DAYS[iso_date]["events"] if TERM_DAYS[iso_date]["events"] != "None" else None,
+    )
 
 
 
