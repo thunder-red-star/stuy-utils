@@ -345,7 +345,7 @@ def get_next_class(day: dt) -> Optional[Tuple[str, Time]]:
     current_class = get_current_class(day)
 
     if current_class is None:
-        return schedule.items()[0]
+        return next(iter(schedule.items()))
 
     else:
         return schedule.items()[schedule.items().index(current_class) + 1]
