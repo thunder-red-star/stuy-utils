@@ -310,6 +310,8 @@ def get_current_class(day: dt) -> Optional[Tuple[str, Time]]:
     """
     schedule = get_bell_schedule(day)
 
+    day = day.time()
+
     for cat in schedule.items():
         if cat[1].start <= day <= cat[1].end:
             return cat
