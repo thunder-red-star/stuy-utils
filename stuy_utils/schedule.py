@@ -15,9 +15,10 @@ from stuy_utils import errors
 Info = namedtuple("Info", ("cycle", "period", "testing", "event"))
 Time = namedtuple("Time", ("start", "end"))
 
-TERM_PATH = f"{Path(__file__).parent}/data/term_days.csv"
-BELL_PATH = f"{Path(__file__).parent}/data/bell_schedule.csv"
-
+TERM_PATH = f"{Path(__file__).parent}/data/term_days.tsv"
+REGULAR_BELLS_PATH = f"{Path(__file__).parent}/data/regular.tsv"
+CONFERENCE_BELLS_PATH = f"{Path(__file__).parent}/data/conference.tsv"
+HOMEROOM_BELLS_PATH = f"{Path(__file__).parent}/data/homeroom.tsv"
 
 with open(TERM_PATH, "r") as term_csv, open(BELL_PATH, "r") as bell_csv:
     """
@@ -143,7 +144,7 @@ def get_day_info(day: Union[date, dt]) -> Info:
     """Returns information about a given day.
 
     Returns the cycle, period, testing subjects, and any events of a given
-    day. If a category does not apply, an empty string will be returned.
+    day. If a category does not apply, a value of None is returned.
 
     Args:
         day (Union[datetime.date, datetime.datetime]): A date or datetime
@@ -160,13 +161,18 @@ def get_day_info(day: Union[date, dt]) -> Info:
         'event'.
     """
 
-    """
-    return TERM_DAYS[convert_to_isoformat(day)]
-    """
+    if not isinstance(day, date):
+        raise errors.InvalidDate(day)
 
-    # Throw an exception that the method is deprecated
-    raise errors.DeprecatedMethod("get_day_info")
+    if isinstance(day, dt):
+        day = day.date()  # Converts datetime to date to remove time
 
+    iso_date = day.isoformat()
+
+    if iso_date not in TERM_DAYS:
+        raise errors.DayNotInData(iso_date)
+
+    return Info(cycle=TERM_DAYS[iso_date]['cycle'] if 'cycle' in TERM_DAYS[iso_date] else None,
 
 def get_next_school_day(
         day: Union[date, dt], always_same: bool = False) -> Optional[date]:
