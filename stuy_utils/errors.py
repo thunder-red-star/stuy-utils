@@ -19,3 +19,11 @@ class DayNotInData(StuyException):
     def __init__(self, day):
         self.day = day
         super().__init__(f"Unable to access '{day}' from the data.")
+
+
+class DeprecatedMethod(StuyException):
+    """Thrown if the method is no longer supported."""
+
+    def __init__(self, method):
+        self.method = method
+        super().__init__(f"{method} is not or no longer supported.")

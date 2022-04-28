@@ -164,7 +164,8 @@ def get_day_info(day: Union[date, dt]) -> Info:
     return TERM_DAYS[convert_to_isoformat(day)]
     """
 
-    return "This method is deprecated. Please don't use it until we update the term days database."
+    # Throw an exception that the method is deprecated
+    raise errors.DeprecatedMethod("get_day_info")
 
 
 def get_next_school_day(
@@ -212,7 +213,7 @@ def get_next_school_day(
     return None
     """
 
-    return "This method is deprecated. Please don't use it until we update the term days database."
+    raise errors.DeprecatedMethod("get_next_school_day")
 
 
 def get_bell_schedule(day: Union[date, dt]) -> Dict[str, Time]:
@@ -245,7 +246,7 @@ def get_bell_schedule(day: Union[date, dt]) -> Dict[str, Time]:
                    for time in cat[1]])  # Loop through the start and end times
             for cat in BELL_SCHEDULE.items()}  # Loop through the categories
     """
-    return "This method is deprecated. Please don't use it until we update the term days database."
+    raise errors.DeprecatedMethod("get_bell_schedule")
 
 def get_current_class(day: dt) -> Optional[Tuple[str, Time]]:
     """Returns information of the current class.
@@ -319,7 +320,7 @@ def get_next_class(day: dt) -> Optional[Tuple[str, Time]]:
     return None
     """
 
-    return "This method is deprecated. Please don't use it until we update the term days database."
+    return
 
 def get_current_period(time: dt) -> Optional[str]:
     """Returns the current period.
@@ -340,4 +341,4 @@ def get_current_period(time: dt) -> Optional[str]:
         Optional[str]: A string of the category name (see data/bell_schedule.csv)
     """
 
-    return "This method is a work in progress."
+    raise NotImplementedError
