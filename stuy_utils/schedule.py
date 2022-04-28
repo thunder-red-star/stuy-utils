@@ -57,6 +57,9 @@ def convert_12h_to_24h(hours12: str) -> str:
     if int(hours) > 12:
         raise errors.InvalidTime(hours12)
 
+    # Account for 12:00 AM being 0 hours
+    if hours == "12" and hours12.endswith("AM"):
+        hours = "0"
     if "PM" in hours12:
         hours = str(int(hours) + 12)
 
@@ -95,6 +98,7 @@ def convert_24h_to_minutes(hours24: str) -> int:
         raise errors.InvalidTime(hours24)
 
     return int(hours) * 60 + int(minutes)
+
 
 with open(TERM_PATH, "r") as term_tsv, open(REGULAR_BELLS_PATH, "r") as regular_tsv, open(CONFERENCE_BELLS_PATH,
                                                                                           "r") as conference_tsv, open(
