@@ -46,6 +46,7 @@ def convert_12h_to_24h(hours12: str) -> str:
 
     if "AM" in hours12 or "PM" in hours12:
         hours12 = hours12.split(" ")[0]
+        am_pm = hours12.split(" ")[1]
     else:
         raise errors.InvalidTime(hours12)
 
@@ -60,7 +61,7 @@ def convert_12h_to_24h(hours12: str) -> str:
     # Account for 12:00 AM being 0 hours
     if hours == "12":
         hours = "0"
-    if "PM" in hours12:
+    if am_pm == "PM":
         hours = str(int(hours) + 12)
 
     if int(hours) < 10:
@@ -317,10 +318,6 @@ def get_current_class(day: dt) -> Optional[Tuple[str, Time]]:
     day = day.time()
 
     for item in schedule.items():
-        # debug, print each item
-        print(item[1].start)
-        print(item[1].end)
-        print("Day", day)
         if item[1].start <= day <= item[1].end:
             return item
 
