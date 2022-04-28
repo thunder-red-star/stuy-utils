@@ -178,11 +178,11 @@ def get_day_info(day: Union[date, dt]) -> Info:
     if iso_date not in TERM_DAYS:
         raise errors.DayNotInData(iso_date)
 
-    ret_tuple = Info(school=True if TERM_DAYS[iso_date][1] != "True" else False,
-        cycle=TERM_DAYS[iso_date][2] if TERM_DAYS[iso_date][2] != "None" else None,
-        schedule=TERM_DAYS[iso_date][3] if TERM_DAYS[iso_date][3] != "None" else None,
-        testing=TERM_DAYS[iso_date][4] if TERM_DAYS[iso_date][4] != "None" else None,
-        events=TERM_DAYS[iso_date][5] if TERM_DAYS[iso_date][5] != "None" else None, )
+    ret_tuple = Info(school=True if TERM_DAYS[iso_date][0] != "True" else False,
+        cycle=TERM_DAYS[iso_date][1] if TERM_DAYS[iso_date][1] != "None" else None,
+        schedule=TERM_DAYS[iso_date][2] if TERM_DAYS[iso_date][2] != "None" else None,
+        testing=TERM_DAYS[iso_date][3] if TERM_DAYS[iso_date][3] != "None" else None,
+        events=TERM_DAYS[iso_date][4] if TERM_DAYS[iso_date][4] != "None" else None, )
 
     return ret_tuple
 
@@ -220,7 +220,7 @@ def get_next_school_day(day: Union[date, dt], always_same: bool = False) -> Opti
     if iso_date not in TERM_DAYS:
         raise errors.DayNotInData(iso_date)
 
-    if TERM_DAYS[iso_date][1] == "True":
+    if TERM_DAYS[iso_date][0] == "True":
         return day
 
     if always_same:
@@ -266,18 +266,18 @@ def get_bell_schedule(day: Union[date, dt]) -> Dict[str, Time]:
     if iso_date not in TERM_DAYS:
         raise errors.DayNotInData(iso_date)
 
-    if TERM_DAYS[iso_date][1] == "True":
-        if TERM_DAYS[iso_date][3] == "None":
+    if TERM_DAYS[iso_date][0] == "True":
+        if TERM_DAYS[iso_date][2] == "None":
             # should never happen, but return regular bell schedule if it does
             return REGULAR_BELL_SCHEDULE
         else:
-            if TERM_DAYS[iso_date][3] == "Regular":
+            if TERM_DAYS[iso_date][2] == "Regular":
                 return REGULAR_BELL_SCHEDULE
-            elif TERM_DAYS[iso_date][3] == "Conference":
+            elif TERM_DAYS[iso_date][2] == "Conference":
                 return CONFERENCE_BELL_SCHEDULE
-            elif TERM_DAYS[iso_date][3] == "Homeroom":
+            elif TERM_DAYS[iso_date][2] == "Homeroom":
                 return HOMEROOM_BELL_SCHEDULE
-            elif TERM_DAYS[iso_date][3] == "PTC":
+            elif TERM_DAYS[iso_date][2] == "PTC":
                 return PTC_BELL_SCHEDULE
             else:
                 return REGULAR_BELL_SCHEDULE
