@@ -318,7 +318,7 @@ def get_current_class(day: dt) -> Optional[Tuple[str, Time]]:
 
     for item in schedule.items():
         if convert_12h_to_24h(item[1].start) <= day <= convert_12h_to_24h(item[1].end):
-            return cat
+            return item
 
     return None
 

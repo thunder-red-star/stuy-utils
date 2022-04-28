@@ -13,6 +13,14 @@ class InvalidDate(StuyException):
         super().__init__(f"'{day}' is not a date or datetime object.")
 
 
+class InvalidTime(StuyException):
+    """Thrown if the input is not a time object."""
+
+    def __init__(self, time):
+        self.time = time
+        super().__init__(f"'{time}' is not a time object.")
+
+
 class DayNotInData(StuyException):
     """Thrown if the inputted day is not in term_days.csv."""
 
