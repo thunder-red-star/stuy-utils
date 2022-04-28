@@ -58,7 +58,7 @@ def convert_12h_to_24h(hours12: str) -> str:
         raise errors.InvalidTime(hours12)
 
     # Account for 12:00 AM being 0 hours
-    if hours == "12" and hours12.endswith("AM"):
+    if hours == "12":
         hours = "0"
     if "PM" in hours12:
         hours = str(int(hours) + 12)
