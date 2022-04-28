@@ -353,7 +353,16 @@ def get_next_class(day: dt) -> Optional[Tuple[str, Time]]:
         return next(iter(schedule.items()))
 
     else:
-        return schedule.items()[schedule.items().index(current_class) + 1]
+        # Find index of current class
+        index = schedule.keys().index(current_class[0])
+
+        # If the current class is the last class, return None
+        if index == len(schedule.keys()) - 1:
+            return None
+
+        # Otherwise, find the next class
+        else:
+            next_class = schedule.keys()[index + 1]
 
 
 def get_current_period(time: dt) -> Optional[str]:
