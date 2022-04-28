@@ -175,7 +175,7 @@ def get_day_info(day: Union[date, dt]) -> Info:
         events=TERM_DAYS[iso_date]["events"] if TERM_DAYS[iso_date]["events"] != "None" else None,
     )
 
-
+    return ret_tuple
 
 def get_next_school_day(
         day: Union[date, dt], always_same: bool = False) -> Optional[date]:
