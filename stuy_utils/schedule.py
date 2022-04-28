@@ -20,16 +20,12 @@ REGULAR_BELLS_PATH = f"{Path(__file__).parent}/data/regular.tsv"
 CONFERENCE_BELLS_PATH = f"{Path(__file__).parent}/data/conference.tsv"
 HOMEROOM_BELLS_PATH = f"{Path(__file__).parent}/data/homeroom.tsv"
 
-with open(TERM_PATH, "r") as term_csv, open(BELL_PATH, "r") as bell_csv:
-    """
-    # {"2021-01-31": Info("", "", "", "Fall Grades Due"), ...}
-    TERM_DAYS = {row[0]: Info(*row[1:])
-                 for row in list(csv.reader(term_csv, delimiter='\t'))[1:]}
-    """
-    # {"Period 1": Time(datetime.time(9, 10), datetime.time(10, 5)), ...}
-    BELL_SCHEDULE = {row[0]: Time(*[time.fromisoformat(element)
-                                    for element in row[1:]])
-                     for row in list(csv.reader(bell_csv, delimiter='\t'))[1:]}
+with open(TERM_PATH, "r") as term_tsv, open(REGULAR_BELLS_PATH, "r") as regular_tsv, open(CONFERENCE_BELLS_PATH, "r") as conference_tsv, open(HOMEROOM_BELLS_PATH, "r") as homeroom_tsv:
+    TERM_DAYS = {row[0]: Info(*row[1:]) for row in list(csv.reader(term_tsv, delimiter="\t"))[1:]}
+    REGULAR_BELL_SCHEDULE = {row[0]: Time(*[time.fromisoformat(element) for element in row[1:]]) for row in list(csv.reader(regular_tsv, delimiter="\t"))[1:]}
+    CONFERENCE_BELL_SCHEDULE = {row[0]: Time(*[time.fromisoformat(element) for element in row[1:]]) for row in list(csv.reader(conference_tsv, delimiter="\t"))[1:]}
+    HOMEROOM_BELL_SCHEDULE = {row[0]: Time(*[time.fromisoformat(element) for element in row[1:]]) for row in list(csv.reader(homeroom_tsv, delimiter="\t"))[1:]}
+
 
 def convert_12h_to_24h(hours12: str) -> str:
     """Converts a 12-hour time to a 24-hour time.
@@ -172,7 +168,14 @@ def get_day_info(day: Union[date, dt]) -> Info:
     if iso_date not in TERM_DAYS:
         raise errors.DayNotInData(iso_date)
 
-    return Info(cycle=TERM_DAYS[iso_date]['cycle'] if 'cycle' in TERM_DAYS[iso_date] else None,
+    # If any value is a string containing "None", it is converted to None
+    retTuple = Info(
+        cycle=TERM_DAYS[iso_date]["cycle"] if TERM_DAYS[iso_date]["cycle"] != "None" else None,
+        period=TERM_DAYS[iso_date]["period"] if TERM_DAYS[iso_date]["period"] != "None" else None,
+        testing=TERM_DAYS[iso_date]["testing"] if TERM_DAYS[iso_date]["testing"] != "None" else None,
+        event=TERM_DAYS[iso_date]["event"] if TERM_DAYS[iso_date]["event"] != "None" else None
+
+
 
 def get_next_school_day(
         day: Union[date, dt], always_same: bool = False) -> Optional[date]:
