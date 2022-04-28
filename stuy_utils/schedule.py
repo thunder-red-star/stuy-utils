@@ -45,7 +45,7 @@ def convert_12h_to_24h(hours12: str) -> str:
         raise errors.InvalidTime(hours12)
 
     if "AM" in hours12 or "PM" in hours12:
-        hours12 = hours12.split(" ")[0]
+        hours12time = hours12.split(" ")[0]
         am_pm = hours12.split(" ")[1]
     else:
         raise errors.InvalidTime(hours12)
@@ -53,7 +53,7 @@ def convert_12h_to_24h(hours12: str) -> str:
     if ":" not in hours12:
         raise errors.InvalidTime(hours12)
 
-    hours, minutes = hours12.split(":")
+    hours, minutes = hours12time.split(":")
 
     if int(hours) > 12:
         raise errors.InvalidTime(hours12)
