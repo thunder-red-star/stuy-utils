@@ -21,18 +21,6 @@ CONFERENCE_BELLS_PATH = f"{Path(__file__).parent}/data/conference.tsv"
 HOMEROOM_BELLS_PATH = f"{Path(__file__).parent}/data/homeroom.tsv"
 PTC_BELLS_PATH = f"{Path(__file__).parent}/data/ptc.tsv"
 
-with open(TERM_PATH, "r") as term_tsv, open(REGULAR_BELLS_PATH, "r") as regular_tsv, open(CONFERENCE_BELLS_PATH,
-                                                                                          "r") as conference_tsv, open(
-        HOMEROOM_BELLS_PATH, "r") as homeroom_tsv:
-    TERM_DAYS = {row[0]: Info(*row[1:]) for row in list(csv.reader(term_tsv, delimiter="\t"))[1:]}
-    REGULAR_BELL_SCHEDULE = {row[0]: Time(*[time.fromisoformat(element) for element in row[1:]]) for row in
-                             list(csv.reader(regular_tsv, delimiter="\t"))[1:]}
-    CONFERENCE_BELL_SCHEDULE = {row[0]: Time(*[time.fromisoformat(element) for element in row[1:]]) for row in
-                                list(csv.reader(conference_tsv, delimiter="\t"))[1:]}
-    HOMEROOM_BELL_SCHEDULE = {row[0]: Time(*[time.fromisoformat(element) for element in row[1:]]) for row in
-                              list(csv.reader(homeroom_tsv, delimiter="\t"))[1:]}
-    PTC_BELL_SCHEDULE = {row[0]: Time(*[time.fromisoformat(element) for element in row[1:]]) for row in
-                         list(csv.reader(homeroom_tsv, delimiter="\t"))[1:]}
 
 
 def convert_12h_to_24h(hours12: str) -> str:
@@ -107,6 +95,19 @@ def convert_24h_to_minutes(hours24: str) -> int:
         raise errors.InvalidTime(hours24)
 
     return int(hours) * 60 + int(minutes)
+
+with open(TERM_PATH, "r") as term_tsv, open(REGULAR_BELLS_PATH, "r") as regular_tsv, open(CONFERENCE_BELLS_PATH,
+                                                                                          "r") as conference_tsv, open(
+        HOMEROOM_BELLS_PATH, "r") as homeroom_tsv:
+    TERM_DAYS = {row[0]: Info(*row[1:]) for row in list(csv.reader(term_tsv, delimiter="\t"))[1:]}
+    REGULAR_BELL_SCHEDULE = {row[0]: Time(*[time.fromisoformat(convert_12h_to_24h(element)) for element in row[1:]]) for row in
+                             list(csv.reader(regular_tsv, delimiter="\t"))[1:]}
+    CONFERENCE_BELL_SCHEDULE = {row[0]: Time(*[time.fromisoformat(convert_12h_to_24h(element)) for element in row[1:]]) for row in
+                                list(csv.reader(conference_tsv, delimiter="\t"))[1:]}
+    HOMEROOM_BELL_SCHEDULE = {row[0]: Time(*[time.fromisoformat(convert_12h_to_24h(element)) for element in row[1:]]) for row in
+                              list(csv.reader(homeroom_tsv, delimiter="\t"))[1:]}
+    PTC_BELL_SCHEDULE = {row[0]: Time(*[time.fromisoformat(convert_12h_to_24h(element)) for element in row[1:]]) for row in
+                         list(csv.reader(homeroom_tsv, delimiter="\t"))[1:]}
 
 
 def convert_to_isoformat(day: Union[date, dt]) -> str:
