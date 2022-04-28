@@ -62,29 +62,27 @@ print(f"Testing Day: {day_info.testing if day_info.testing else None}")
 print(f"Event(s): {day_info.event if day_info.event else None}\n")
 
 if current_class:
-    cprint("School is in session!", Fore.GREEN, Style.BRIGHT)
-
-    current_period = current_class[0]
-
-    if current_period.startswith("Passing"):
-        current_period = "Passing"
-    elif day_info.period == "6-10" and current_period.startswith("Period"):
-        current_period = f"Period {int(current_period[-1]) + 5}"
-
-    cprint(f"Current Period: {current_period}", Fore.BLUE)
-    cprint(f"Over In: {format_td(current_class[1].end - day)}", Fore.YELLOW)
+    cprint(f"Current Class: {current_class.name}", Fore.GREEN)
+    print(f"\tTime: {current_class.time}")
+    print(f"\tRoom: {current_class.room}")
+    print(f"\tTeacher: {current_class.teacher}")
+    print(f"\tDescription: {current_class.description}")
+    print(f"\tNotes: {current_class.notes}")
 else:
-    cprint("School is not in session!", Fore.RED)
+    cprint("No current class", Fore.RED)
 
 if next_class:
-    next_period = next_class[0]
+    cprint(f"Next Class: {next_class.name}", Fore.GREEN)
+    print(f"\tTime: {next_class.time}")
+    print(f"\tRoom: {next_class.room}")
+    print(f"\tTeacher: {next_class.teacher}")
+    print(f"\tDescription: {next_class.description}")
+    print(f"\tNotes: {next_class.notes}")
 
-    if day_info.period == "6-10" and next_period.startswith("Period"):
-        next_period = f"Period {int(next_period[-1]) + 5}"
+else:
+    cprint("No next class", Fore.RED)
 
-    if dt(day.year, day.month, day.day, 16, 30) < day < next_class[1].start:
-        next_period = "Period 1" if next_period == "Period 6" else "Period 6"
+print(f"\nTime until next class: {format_td(next_class.time - day)}")
+print("==========")
 
-    print(f"{next_period} will start in: "
-          f"{format_td(next_class[1].start - day)}")
 print("==========")

@@ -4,7 +4,7 @@
 
 import csv
 from collections import namedtuple
-from datetime import date
+from datetime import date, timedelta
 from datetime import datetime as dt
 from datetime import time
 from pathlib import Path
@@ -19,12 +19,20 @@ TERM_PATH = f"{Path(__file__).parent}/data/term_days.tsv"
 REGULAR_BELLS_PATH = f"{Path(__file__).parent}/data/regular.tsv"
 CONFERENCE_BELLS_PATH = f"{Path(__file__).parent}/data/conference.tsv"
 HOMEROOM_BELLS_PATH = f"{Path(__file__).parent}/data/homeroom.tsv"
+PTC_BELLS_PATH = f"{Path(__file__).parent}/data/ptc.tsv"
 
-with open(TERM_PATH, "r") as term_tsv, open(REGULAR_BELLS_PATH, "r") as regular_tsv, open(CONFERENCE_BELLS_PATH, "r") as conference_tsv, open(HOMEROOM_BELLS_PATH, "r") as homeroom_tsv:
+with open(TERM_PATH, "r") as term_tsv, open(REGULAR_BELLS_PATH, "r") as regular_tsv, open(CONFERENCE_BELLS_PATH,
+                                                                                          "r") as conference_tsv, open(
+        HOMEROOM_BELLS_PATH, "r") as homeroom_tsv:
     TERM_DAYS = {row[0]: Info(*row[1:]) for row in list(csv.reader(term_tsv, delimiter="\t"))[1:]}
-    REGULAR_BELL_SCHEDULE = {row[0]: Time(*[time.fromisoformat(element) for element in row[1:]]) for row in list(csv.reader(regular_tsv, delimiter="\t"))[1:]}
-    CONFERENCE_BELL_SCHEDULE = {row[0]: Time(*[time.fromisoformat(element) for element in row[1:]]) for row in list(csv.reader(conference_tsv, delimiter="\t"))[1:]}
-    HOMEROOM_BELL_SCHEDULE = {row[0]: Time(*[time.fromisoformat(element) for element in row[1:]]) for row in list(csv.reader(homeroom_tsv, delimiter="\t"))[1:]}
+    REGULAR_BELL_SCHEDULE = {row[0]: Time(*[time.fromisoformat(element) for element in row[1:]]) for row in
+                             list(csv.reader(regular_tsv, delimiter="\t"))[1:]}
+    CONFERENCE_BELL_SCHEDULE = {row[0]: Time(*[time.fromisoformat(element) for element in row[1:]]) for row in
+                                list(csv.reader(conference_tsv, delimiter="\t"))[1:]}
+    HOMEROOM_BELL_SCHEDULE = {row[0]: Time(*[time.fromisoformat(element) for element in row[1:]]) for row in
+                              list(csv.reader(homeroom_tsv, delimiter="\t"))[1:]}
+    PTC_BELL_SCHEDULE = {row[0]: Time(*[time.fromisoformat(element) for element in row[1:]]) for row in
+                         list(csv.reader(homeroom_tsv, delimiter="\t"))[1:]}
 
 
 def convert_12h_to_24h(hours12: str) -> str:
@@ -69,6 +77,7 @@ def convert_12h_to_24h(hours12: str) -> str:
 
     return f"{hours}:{minutes}"
 
+
 def convert_24h_to_minutes(hours24: str) -> int:
     """Convert a 24-hour time to minutes.
 
@@ -98,6 +107,7 @@ def convert_24h_to_minutes(hours24: str) -> int:
         raise errors.InvalidTime(hours24)
 
     return int(hours) * 60 + int(minutes)
+
 
 def convert_to_isoformat(day: Union[date, dt]) -> str:
     """Convert a date object to an ISO-formatted date string.
@@ -167,18 +177,16 @@ def get_day_info(day: Union[date, dt]) -> Info:
     if iso_date not in TERM_DAYS:
         raise errors.DayNotInData(iso_date)
 
-    ret_tuple = Info(
-        school=True if TERM_DAYS[iso_date]["school"] != "True" else False,
+    ret_tuple = Info(school=True if TERM_DAYS[iso_date]["school"] != "True" else False,
         cycle=TERM_DAYS[iso_date]["cycle"] if TERM_DAYS[iso_date]["cycle"] != "None" else None,
         schedule=TERM_DAYS[iso_date]["schedule"] if TERM_DAYS[iso_date]["schedule"] != "None" else None,
         testing=TERM_DAYS[iso_date]["testing"] if TERM_DAYS[iso_date]["testing"] != "None" else None,
-        events=TERM_DAYS[iso_date]["events"] if TERM_DAYS[iso_date]["events"] != "None" else None,
-    )
+        events=TERM_DAYS[iso_date]["events"] if TERM_DAYS[iso_date]["events"] != "None" else None, )
 
     return ret_tuple
 
-def get_next_school_day(
-        day: Union[date, dt], always_same: bool = False) -> Optional[date]:
+
+def get_next_school_day(day: Union[date, dt], always_same: bool = False) -> Optional[date]:
     """Returns when the next school day is.
 
     Returns a date object of the next school day from the given day. The given
@@ -200,29 +208,28 @@ def get_next_school_day(
         of the next school day.
     """
 
-    """
-    schedule_list = list(TERM_DAYS.items())
-    day_index = list(TERM_DAYS).index(convert_to_isoformat(day))
+    if not isinstance(day, date):
+        raise errors.InvalidDate(day)
 
-    dt_ = day
+    if isinstance(day, dt):
+        day = day.date()  # Converts datetime to date to remove time
 
-    if not isinstance(dt_, dt):
-        # Converts date to datetime with time 12:00 AM
-        dt_ = dt.combine(dt_, time.min)
+    iso_date = day.isoformat()
 
-    # Loops through each day during or after the given day
-    for day_ in schedule_list[day_index:]:
-        # Return the same day if always_same is True, or if the given day is
-        # before school is over (before AIS Tutoring ends)
-        if always_same or (day_[1].cycle and dt_ <= dt.combine(
-                date.fromisoformat(day_[0]),
-                BELL_SCHEDULE["AIS Tutoring"].end)):
-            return date.fromisoformat(day_[0])
+    if iso_date not in TERM_DAYS:
+        raise errors.DayNotInData(iso_date)
 
-    return None
-    """
+    if TERM_DAYS[iso_date]["school"] == "True":
+        return day
 
-    raise errors.DeprecatedMethod("get_next_school_day")
+    if always_same:
+        return day
+
+    next_day = day + timedelta(days=1)
+    while next_day.isoformat() not in TERM_DAYS:
+        next_day = next_day + timedelta(days=1)
+
+    return next_day
 
 
 def get_bell_schedule(day: Union[date, dt]) -> Dict[str, Time]:
@@ -247,15 +254,38 @@ def get_bell_schedule(day: Union[date, dt]) -> Dict[str, Time]:
         fields 'start' and 'end', which returns a datetime object.
     """
 
-    """
-    return {cat[0]:  # key with category name (e.g. "Period 1")
-            # Creates a Time namedtuple with the datetimes of the next school
-            # day combined with the start and end times of the current category
-            Time(*[dt.combine(get_next_school_day(day), time)
-                   for time in cat[1]])  # Loop through the start and end times
-            for cat in BELL_SCHEDULE.items()}  # Loop through the categories
-    """
-    raise errors.DeprecatedMethod("get_bell_schedule")
+    if not isinstance(day, date):
+        raise errors.InvalidDate(day)
+
+    if isinstance(day, dt):
+        day = day.date()  # Converts datetime to date to remove time
+
+    iso_date = day.isoformat()
+
+    if iso_date not in TERM_DAYS:
+        raise errors.DayNotInData(iso_date)
+
+    if TERM_DAYS[iso_date]["school"] == "True":
+        if TERM_DAYS[iso_date]["bell_schedule"] == "None":
+            # should never happen, but return regular bell schedule if it does
+            return REGULAR_BELL_SCHEDULE
+        else:
+            if TERM_DAYS[iso_date]["bell_schedule"] == "Regular":
+                return REGULAR_BELL_SCHEDULE
+            elif TERM_DAYS[iso_date]["bell_schedule"] == "Conference":
+                return CONFERENCE_BELL_SCHEDULE
+            elif TERM_DAYS[iso_date]["bell_schedule"] == "Homeroom":
+                return HOMEROOM_BELL_SCHEDULE
+            elif TERM_DAYS[iso_date]["bell_schedule"] == "PTC":
+                return PTC_BELL_SCHEDULE
+            else:
+                return REGULAR_BELL_SCHEDULE
+
+    else:
+        # next day, use get_next_school_day
+        next_day = get_next_school_day(day)
+        return get_bell_schedule(next_day)
+
 
 def get_current_class(day: dt) -> Optional[Tuple[str, Time]]:
     """Returns information of the current class.
@@ -279,11 +309,9 @@ def get_current_class(day: dt) -> Optional[Tuple[str, Time]]:
     """
     schedule = get_bell_schedule(day)
 
-    # If school is in session, iterate and check through all of the categories
-    if schedule["Period 1"].start <= day <= schedule["AIS Tutoring"].end:
-        for cat in schedule.items():
-            if cat[1].start <= day <= cat[1].end:
-                return cat
+    for cat in schedule.items():
+        if cat[1].start <= day <= cat[1].end:
+            return cat
 
     return None
 
@@ -309,27 +337,16 @@ def get_next_class(day: dt) -> Optional[Tuple[str, Time]]:
         'start' and 'end', which returns a datetime object.
     """
 
-    """
+    schedule = get_bell_schedule(day)
+
     current_class = get_current_class(day)
 
-    # Checks if school is in session and there is a class after the current
-    # class (anything before AIS Tutoring)
-    if current_class and current_class[0] != "AIS Tutoring":
-        schedule_list = list(get_bell_schedule(day).items())
+    if current_class is None:
+        return schedule.items()[0]
 
-        # Gets the next class in the schedule list, but skip passing periods
-        next_class = schedule_list[schedule_list.index(current_class) + 1]
-        return next_class if not next_class[0].startswith("Passing") \
-            else schedule_list[schedule_list.index(next_class) + 1]
+    else:
+        return schedule.items()[schedule.items().index(current_class) + 1]
 
-    # Gets the first period datetime for the next school day
-    if get_next_school_day(day):
-        return list(get_bell_schedule(get_next_school_day(day)).items())[0]
-
-    return None
-    """
-
-    return
 
 def get_current_period(time: dt) -> Optional[str]:
     """Returns the current period.
@@ -350,4 +367,10 @@ def get_current_period(time: dt) -> Optional[str]:
         Optional[str]: A string of the category name (see data/bell_schedule.csv)
     """
 
-    raise NotImplementedError
+    current_class = get_current_class(time)
+
+    if current_class is None:
+        return None
+
+    else:
+        return current_class[0]
