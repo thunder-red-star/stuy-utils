@@ -178,7 +178,7 @@ def get_day_info(day: Union[date, dt]) -> Info:
     if iso_date not in TERM_DAYS:
         raise errors.DayNotInData(iso_date)
 
-    ret_tuple = Info(school=True if TERM_DAYS[iso_date][0] != "True" else False,
+    ret_tuple = Info(school=True if TERM_DAYS[iso_date][0] == "True" else False,
         cycle=TERM_DAYS[iso_date][1] if TERM_DAYS[iso_date][1] != "None" else None,
         schedule=TERM_DAYS[iso_date][2] if TERM_DAYS[iso_date][2] != "None" else None,
         testing=TERM_DAYS[iso_date][3] if TERM_DAYS[iso_date][3] != "None" else None,
