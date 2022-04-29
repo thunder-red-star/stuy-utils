@@ -14,6 +14,7 @@ day_info = schedule.get_day_info(day)
 current_class = schedule.get_current_class(day)
 next_class = schedule.get_next_class(day)
 
+today_bell_schedule = schedule.get_bell_schedule(day)
 
 def format_td(td_: td) -> str:
     """Converts a timedelta object to a formatted string.
@@ -22,8 +23,6 @@ def format_td(td_: td) -> str:
     Returns:
         str: A parsed, formatted string.
     """
-
-    # MS moment
     days = td_.days
     hrs = td_.seconds // 3600
     mins = (td_.seconds % 3600) // 60
@@ -56,33 +55,20 @@ print(f"Inputted Datetime: {day}\n")
 
 print(day.strftime("Today is %A, %B %d, %Y!\n"))
 
+print(f"School: {day_info.school}")
 print(f"Cycle: {day_info.cycle if day_info.cycle else None}")
-print(f"Periods: {day_info.period if day_info.period else None}")
+print(f"Schedule: {day_info.schedule}")
 print(f"Testing Day: {day_info.testing if day_info.testing else None}")
-print(f"Event(s): {day_info.event if day_info.event else None}\n")
+print(f"Event(s): {day_info.event if day_info.events else None}\n")
 
 if current_class:
-    cprint(f"Current Class: {current_class.name}", Fore.GREEN)
-    print(f"\tTime: {current_class.time}")
-    print(f"\tRoom: {current_class.room}")
-    print(f"\tTeacher: {current_class.teacher}")
-    print(f"\tDescription: {current_class.description}")
-    print(f"\tNotes: {current_class.notes}")
-else:
-    cprint("No current class", Fore.RED)
+    print(f"Current Class: {current_class[0]}")
+    print(f"Current Class Start: {current_class[1][0]}")
+    print(f"Current Class End: {current_class[1][1]}")
 
 if next_class:
-    cprint(f"Next Class: {next_class.name}", Fore.GREEN)
-    print(f"\tTime: {next_class.time}")
-    print(f"\tRoom: {next_class.room}")
-    print(f"\tTeacher: {next_class.teacher}")
-    print(f"\tDescription: {next_class.description}")
-    print(f"\tNotes: {next_class.notes}")
-
-else:
-    cprint("No next class", Fore.RED)
-
-print(f"\nTime until next class: {format_td(next_class.time - day)}")
-print("==========")
+    print(f"Next Class: {next_class[0]}")
+    print(f"Next Class Start: {next_class[1][0]}")
+    print(f"Next Class End: {next_class[1][1]}")
 
 print("==========")
