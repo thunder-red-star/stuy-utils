@@ -364,6 +364,8 @@ def get_next_class(day: dt) -> Optional[Tuple[str, Time]]:
         else:
             next_class = schedule.keys()[index + 1]
 
+            return (next_class, schedule[next_class])
+
 
 def get_current_period(time: dt) -> Optional[str]:
     """Returns the current period.
