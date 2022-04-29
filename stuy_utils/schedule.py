@@ -354,7 +354,7 @@ def get_next_class(day: dt) -> Optional[Tuple[str, Time]]:
 
     else:
         # Find index of current class
-        index = schedule.keys().index(current_class[0])
+        index = list(schedule.keys()).index(current_class[0])
 
         # If the current class is the last class, return None
         if index == len(schedule.keys()) - 1:
