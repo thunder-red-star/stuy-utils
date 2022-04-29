@@ -362,7 +362,7 @@ def get_next_class(day: dt) -> Optional[Tuple[str, Time]]:
 
         # Otherwise, find the next class
         else:
-            next_class = schedule.keys()[index + 1]
+            next_class = list(schedule.keys())[index + 1]
 
             return (next_class, schedule[next_class])
 

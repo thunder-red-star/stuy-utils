@@ -1,6 +1,6 @@
 # StuyUtils-fork
 
-ThunderRedStar's fork of Anthony Chen's [StuyUtils](https://github.com/achen318/stuy-utils). Is updated for the 2021-22 spring semester~~and will have full feature set and more soon.~~
+ThunderRedStar's fork of Anthony Chen's [StuyUtils](https://github.com/achen318/stuy-utils). Is updated for the 2021-22 spring semester ~~and will have full feature set and more soon.~~
 
 All reimplementations are untested, use at your own risk. And feel free to open issues about my shitty python coding.
 
