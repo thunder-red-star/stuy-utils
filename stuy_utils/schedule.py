@@ -324,7 +324,7 @@ def get_current_class(day: dt) -> Optional[Tuple[str, Time]]:
     return None
 
 
-def get_next_class(day: dt) -> Optional[Tuple[str, Time]]:
+def get_next_class(day: dt, skip_passing: bool = False) -> Optional[Tuple[str, Time]]:
     """Returns information of the next class.
 
     Returns a tuple of information of the next class, where the first element
@@ -363,6 +363,10 @@ def get_next_class(day: dt) -> Optional[Tuple[str, Time]]:
         # Otherwise, find the next class
         else:
             next_class = list(schedule.keys())[index + 1]
+            if skip_passing:
+                next_class = list(schedule.keys())[index + 2]
+            else:
+                return next_class, schedule[next_class]
 
             return (next_class, schedule[next_class])
 
