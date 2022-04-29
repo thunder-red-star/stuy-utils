@@ -232,7 +232,9 @@ def get_next_school_day(day: Union[date, dt], always_same: bool = False) -> Opti
         return day
 
     next_day = day + timedelta(days=1)
-    while next_day.isoformat() not in TERM_DAYS:
+    while get_day_info(next_day).school is False:
+        if next_day.isoformat() not in TERM_DAYS:
+            return None
         next_day = next_day + timedelta(days=1)
 
     return next_day
