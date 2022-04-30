@@ -240,7 +240,7 @@ def get_next_school_day(day: Union[date, dt], always_same: bool = False) -> Opti
     return next_day
 
 
-def get_bell_schedule(day: Union[date, dt]) -> Dict[str, Time]:
+def get_bell_schedule(day: Union[date, dt], this_day: bool = False) -> Dict[str, Time]:
     """Returns the bell periods of the next school day.
 
     Returns a dictionary of bell periods of the next school day. If the given
@@ -290,9 +290,12 @@ def get_bell_schedule(day: Union[date, dt]) -> Dict[str, Time]:
                 return None
 
     else:
-        # next day, use get_next_school_day
-        next_day = get_next_school_day(day)
-        return get_bell_schedule(next_day)
+        if this_day:
+            return None
+        else:
+            # next day, use get_next_school_day
+            next_day = get_next_school_day(day)
+            return get_bell_schedule(next_day)
 
 
 def get_current_class(day: dt) -> Optional[Tuple[str, Time]]:
