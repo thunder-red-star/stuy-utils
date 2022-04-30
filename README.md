@@ -12,7 +12,7 @@ TODO:
 - [x] Add parsing for TSV
 - [x] Add new Term Days
 - [x] Deprecate methods involving Term Days until updates are pushed
-- [ ] Add more features 
+- [x] Add more features 
 
 ## Usage
 Please read the markdown files in the `docs` directory.
