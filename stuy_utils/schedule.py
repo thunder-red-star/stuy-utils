@@ -245,7 +245,7 @@ def get_bell_schedule(day: Union[date, dt], this_day: bool = False) -> Dict[str,
 
     Returns a dictionary of bell periods of the next school day. If the given
     day is a school day, then the bell schedule of that day will be returned,
-    even if it is afterschool. ⬅️!!!
+    even if it is afterschool. ⬅️!?!
 
     Args:
         day (Union[datetime.date, datetime.datetime]): A date or datetime
