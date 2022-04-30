@@ -276,7 +276,7 @@ def get_bell_schedule(day: Union[date, dt]) -> Dict[str, Time]:
     if TERM_DAYS[iso_date][0] == "True":
         if TERM_DAYS[iso_date][2] == "None":
             # should never happen, but return regular bell schedule if it does
-            return REGULAR_BELL_SCHEDULE
+            return None
         else:
             if TERM_DAYS[iso_date][2] == "Regular":
                 return REGULAR_BELL_SCHEDULE
