@@ -287,7 +287,7 @@ def get_bell_schedule(day: Union[date, dt]) -> Dict[str, Time]:
             elif TERM_DAYS[iso_date][2] == "PTC":
                 return PTC_BELL_SCHEDULE
             else:
-                return REGULAR_BELL_SCHEDULE
+                return None
 
     else:
         # next day, use get_next_school_day
