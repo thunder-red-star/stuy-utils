@@ -231,49 +231,49 @@ Date	School	Cycle	Schedule	Testing	Events
 2022-04-30	False	None	None	None	None
 2022-05-01	False	None	None	None	None
 2022-05-02	False	None	None	None	Eid al-Fitr
-2022-05-03	True	B1	Regular	Science	None
-2022-05-04	True	A1	Conference	World Languages, English Language Arts, Health	Faculty Meeting, End of MP2
-2022-05-05	True	B2	Regular	Mathematics, Music, Art	Start of MP3
-2022-05-06	True	A2	Regular	Computer Science, Social Studies, Technology	None
+2022-05-03	True	A1	Regular	Science	None
+2022-05-04	True	B1	Conference	World Languages, English Language Arts, Health	Faculty Meeting, End of MP2
+2022-05-05	True	A2	Regular	Mathematics, Music, Art	Start of MP3
+2022-05-06	True	B2	Regular	Computer Science, Social Studies, Technology	None
 2022-05-07	False	None	None	None	None
 2022-05-08	False	None	None	None	None
-2022-05-09	True	B	Regular	Science	None
-2022-05-10	True	A1	Regular	Science	None
-2022-05-11	True	B1	Regular	World Languages, English Language Arts, Health	Grades due 8am
-2022-05-12	True	A2	Regular	Mathematics, Music, Art	None
-2022-05-13	True	B2	Regular	Computer Science, Social Studies, Technology	None
+2022-05-09	True	A	Regular	Science	None
+2022-05-10	True	B1	Regular	Science	None
+2022-05-11	True	A1	Regular	World Languages, English Language Arts, Health	Grades due 8am
+2022-05-12	True	B2	Regular	Mathematics, Music, Art	None
+2022-05-13	True	A2	Regular	Computer Science, Social Studies, Technology	None
 2022-05-14	False	None	None	None	None
 2022-05-15	False	None	None	None	None
-2022-05-16	True	A	Regular	Science	Report Card Distribution
-2022-05-17	True	B1	Regular	Science	None
-2022-05-18	True	A1	Conference	World Languages, English Language Arts, Health	Department Meeting
-2022-05-19	True	B2	Regular	Mathematics, Music, Art	None
-2022-05-20	True	A2	Regular	Computer Science, Social Studies, Technology	None
+2022-05-16	True	B	Regular	Science	Report Card Distribution
+2022-05-17	True	A1	Regular	Science	None
+2022-05-18	True	B1	Conference	World Languages, English Language Arts, Health	Department Meeting
+2022-05-19	True	A2	Regular	Mathematics, Music, Art	None
+2022-05-20	True	B2	Regular	Computer Science, Social Studies, Technology	None
 2022-05-21	False	None	None	None	None
 2022-05-22	False	None	None	None	None
-2022-05-23	True	B	Regular	Science	None
-2022-05-24	True	A1	Regular	Science	None
-2022-05-25	True	B1	Regular	World Languages, English Language Arts, Health	None
-2022-05-26	True	A2	Regular	Mathematics, Music, Art	None
-2022-05-27	True	B2	Regular	Computer Science, Social Studies, Technology	None
+2022-05-23	True	A	Regular	Science	None
+2022-05-24	True	B1	Regular	Science	None
+2022-05-25	True	A1	Regular	World Languages, English Language Arts, Health	None
+2022-05-26	True	B2	Regular	Mathematics, Music, Art	None
+2022-05-27	True	A2	Regular	Computer Science, Social Studies, Technology	None
 2022-05-28	False	None	None	None	None
 2022-05-29	False	None	None	None	None
 2022-05-30	False	None	None	None	Memorial Day
-2022-05-31	True	A	Regular	Science	None
-2022-06-01	True	B1	Regular	World Languages, English Language Arts, Health	None
-2022-06-02	True	A1	Regular	Mathematics, Music, Art	None
-2022-06-03	True	B2	Regular	Computer Science, Social Studies, Technology	None
+2022-05-31	True	B	Regular	Science	None
+2022-06-01	True	A1	Regular	World Languages, English Language Arts, Health	None
+2022-06-02	True	B1	Regular	Mathematics, Music, Art	None
+2022-06-03	True	A2	Regular	Computer Science, Social Studies, Technology	None
 2022-04-04	False	None	None	None	None
 2022-06-05	False	None	None	None	None
-2022-06-06	True	A1	Regular	Finals	Finals
+2022-06-06	True	B2	Regular	Finals	Finals
 2022-06-07	False	None	None	None	Clerical Day
-2022-06-08	True	B1	Regular	Finals	Finals
+2022-06-08	True	A1	Regular	Finals	Finals
 2022-06-09	False	None	None	None	Chancellor's Day
-2022-06-10	True	A2	Regular	Finals	Finals
+2022-06-10	True	B1	Regular	Finals	Finals
 2022-06-11	False	None	None	None	None
 2022-06-12	False	None	None	None	None
-2022-06-13	True	B2	Regular	Finals	Finals
-2022-06-14	True	A	Regular	Finals	Finals, End of MP3
+2022-06-13	True	A2	Regular	Finals	Finals
+2022-06-14	True	B	Regular	Finals	Finals, End of MP3
 2022-06-15	False	None	None	None	Regents Exams
 2022-06-16	False	None	None	None	Regents Exams
 2022-06-17	False	None	None	None	Regents Exams
