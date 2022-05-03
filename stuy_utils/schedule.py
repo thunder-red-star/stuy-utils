@@ -368,12 +368,13 @@ def get_next_class(day: dt, skip_passing: bool = False) -> Optional[Tuple[str, T
         # Otherwise, find the next class
         else:
             next_class = list(schedule.keys())[index + 1]
-            if skip_passing:
+            # If next class name contains "Passing", skip it
+            if skip_passing and "Passing" in next_class:
                 next_class = list(schedule.keys())[index + 2]
             else:
                 return next_class, schedule[next_class]
 
-            return (next_class, schedule[next_class])
+            return next_class, schedule[next_class]
 
 
 def get_current_period(time: dt) -> Optional[str]:
