@@ -266,10 +266,10 @@ Date	School	Cycle	Schedule	Testing	Events
 2022-04-04	False	None	None	None	None
 2022-06-05	False	None	None	None	None
 2022-06-06	True	B2	Regular	Finals	Finals
-2022-06-07	False	None	None	None	Clerical Day
-2022-06-08	True	A1	Regular	Finals	Finals
+2022-06-07	False	A1	Regular	Finals	Finals
+2022-06-08	True	B1	Regular	Finals	Finals
 2022-06-09	False	None	None	None	Chancellor's Day
-2022-06-10	True	B1	Regular	Finals	Finals
+2022-06-10	True	A2	Regular	Finals	Finals
 2022-06-11	False	None	None	None	None
 2022-06-12	False	None	None	None	None
 2022-06-13	True	A2	Regular	Finals	Finals
