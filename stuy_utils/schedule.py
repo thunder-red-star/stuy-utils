@@ -15,7 +15,7 @@ from stuy_utils import errors
 Info = namedtuple("Info", ("school", "cycle", "schedule", "testing", "events"))
 Time = namedtuple("Time", ("start", "end"))
 
-TERM_PATH = f"{Path(__file__).parent}/data/term-days-2022.tsv"
+TERM_PATH = f"{Path(__file__).parent}/data/term-days-2023.tsv"
 REGULAR_BELLS_PATH = f"{Path(__file__).parent}/data/regular.tsv"
 CONFERENCE_BELLS_PATH = f"{Path(__file__).parent}/data/conference.tsv"
 HOMEROOM_BELLS_PATH = f"{Path(__file__).parent}/data/homeroom.tsv"
