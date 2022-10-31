@@ -1,7 +1,3 @@
-"""Hey ACPlayGames, going through and using your comment format was a pain but I tried my best :hugging:."""
-
-"""Functions for retriving schedule and day info of a day in the semester."""
-
 import csv
 from collections import namedtuple
 from datetime import date, timedelta
@@ -20,7 +16,7 @@ REGULAR_BELLS_PATH = f"{Path(__file__).parent}/data/regular.tsv"
 CONFERENCE_BELLS_PATH = f"{Path(__file__).parent}/data/conference.tsv"
 HOMEROOM_BELLS_PATH = f"{Path(__file__).parent}/data/homeroom.tsv"
 PTC_BELLS_PATH = f"{Path(__file__).parent}/data/ptc.tsv"
-
+EXTENDED_HOMEROOM_BELLS_PATH = f"{Path(__file__).parent}/data/extended_homeroom.tsv"
 
 
 def convert_12h_to_24h(hours12: str) -> str:
@@ -35,10 +31,12 @@ def convert_12h_to_24h(hours12: str) -> str:
 
     Raises:
         errors.InvalidTime: Thrown if the input is not a string.
-        errors.InvalidTime: Thrown if the input isn't a 12 hour time (i.e. doesn't contain AM or PM, or hours > 12).
+        errors.InvalidTime: Thrown if the input isn't a 12-hour time
+        (i.e. doesn't contain AM or PM, or hours > 12).
 
     Returns:
-        str: A string representing a 24 hour time, with 0 prepended to the front of the time if the hour is less than 10.
+        str: A string representing a 24-hour time, with 0 prepended
+        to the front of the time if the hour is less than 10.
     """
 
     if not isinstance(hours12, str):
@@ -81,7 +79,7 @@ def convert_24h_to_minutes(hours24: str) -> int:
 
     Raises:
         errors.InvalidTime: Thrown if the input is not a string.
-        errors.InvalidTime: Thrown if the input isn't a 24 hour time (i.e. doesn't contain :, or hours > 24).
+        errors.InvalidTime: Thrown if the input isn't a 24-hour time (i.e. doesn't contain :, or hours > 24).
 
     Returns:
         int: The number of minutes since midnight.
@@ -103,16 +101,23 @@ def convert_24h_to_minutes(hours24: str) -> int:
 
 with open(TERM_PATH, "r") as term_tsv, open(REGULAR_BELLS_PATH, "r") as regular_tsv, open(CONFERENCE_BELLS_PATH,
                                                                                           "r") as conference_tsv, open(
-        HOMEROOM_BELLS_PATH, "r") as homeroom_tsv:
+    HOMEROOM_BELLS_PATH, "r") as homeroom_tsv:
     TERM_DAYS = {row[0]: Info(*row[1:]) for row in list(csv.reader(term_tsv, delimiter="\t"))[1:]}
-    REGULAR_BELL_SCHEDULE = {row[0]: Time(*[time.fromisoformat(convert_12h_to_24h(element)) for element in row[1:]]) for row in
+    REGULAR_BELL_SCHEDULE = {row[0]: Time(*[time.fromisoformat(convert_12h_to_24h(element)) for element in row[1:]]) for
+                             row in
                              list(csv.reader(regular_tsv, delimiter="\t"))[1:]}
-    CONFERENCE_BELL_SCHEDULE = {row[0]: Time(*[time.fromisoformat(convert_12h_to_24h(element)) for element in row[1:]]) for row in
+    CONFERENCE_BELL_SCHEDULE = {row[0]: Time(*[time.fromisoformat(convert_12h_to_24h(element)) for element in row[1:]])
+                                for row in
                                 list(csv.reader(conference_tsv, delimiter="\t"))[1:]}
-    HOMEROOM_BELL_SCHEDULE = {row[0]: Time(*[time.fromisoformat(convert_12h_to_24h(element)) for element in row[1:]]) for row in
+    HOMEROOM_BELL_SCHEDULE = {row[0]: Time(*[time.fromisoformat(convert_12h_to_24h(element)) for element in row[1:]])
+                              for row in
                               list(csv.reader(homeroom_tsv, delimiter="\t"))[1:]}
-    PTC_BELL_SCHEDULE = {row[0]: Time(*[time.fromisoformat(convert_12h_to_24h(element)) for element in row[1:]]) for row in
+    PTC_BELL_SCHEDULE = {row[0]: Time(*[time.fromisoformat(convert_12h_to_24h(element)) for element in row[1:]]) for row
+                         in
                          list(csv.reader(homeroom_tsv, delimiter="\t"))[1:]}
+    EXTENDED_HOMEROOM_BELL_SCHEDULE = {
+        row[0]: Time(*[time.fromisoformat(convert_12h_to_24h(element)) for element in row[1:]]) for row in
+        list(csv.reader(homeroom_tsv, delimiter="\t"))[1:]}
 
 
 def convert_to_isoformat(day: Union[date, dt]) -> str:
@@ -184,10 +189,10 @@ def get_day_info(day: Union[date, dt]) -> Info:
         raise errors.DayNotInData(iso_date)
 
     ret_tuple = Info(school=True if TERM_DAYS[iso_date][0] == "True" else False,
-        cycle=TERM_DAYS[iso_date][1] if TERM_DAYS[iso_date][1] != "None" else None,
-        schedule=TERM_DAYS[iso_date][2] if TERM_DAYS[iso_date][2] != "None" else None,
-        testing=TERM_DAYS[iso_date][3] if TERM_DAYS[iso_date][3] != "None" else None,
-        events=TERM_DAYS[iso_date][4] if TERM_DAYS[iso_date][4] != "None" else None, )
+                     cycle=TERM_DAYS[iso_date][1] if TERM_DAYS[iso_date][1] != "None" else None,
+                     schedule=TERM_DAYS[iso_date][2] if TERM_DAYS[iso_date][2] != "None" else None,
+                     testing=TERM_DAYS[iso_date][3] if TERM_DAYS[iso_date][3] != "None" else None,
+                     events=TERM_DAYS[iso_date][4] if TERM_DAYS[iso_date][4] != "None" else None, )
 
     return ret_tuple
 
@@ -201,7 +206,7 @@ def get_next_school_day(day: Union[date, dt], always_same: bool = False) -> Opti
     Args:
         day (Union[datetime.date, datetime.datetime]): A date or datetime
         object from the datetime library.
-        always_same (bool, optional): Whether or not to always return the given
+        always_same (bool, optional): Whether to always return the given
         day if the given day is a school day. Defaults to False.
 
     Raises:
@@ -240,14 +245,15 @@ def get_next_school_day(day: Union[date, dt], always_same: bool = False) -> Opti
     return next_day
 
 
-def get_bell_schedule(day: Union[date, dt], this_day: bool = False) -> Dict[str, Time]:
+def get_bell_schedule(day: Union[date, dt], this_day: bool = False) -> Optional[dict]:
     """Returns the bell periods of the next school day.
 
     Returns a dictionary of bell periods of the next school day. If the given
     day is a school day, then the bell schedule of that day will be returned,
-    even if it is afterschool. ⬅️!?!
+    even if it is after-school. ⬅️!?!
 
     Args:
+        this_day: Whether to return the bell schedule of the given
         day (Union[datetime.date, datetime.datetime]): A date or datetime
         object from the datetime library.
 
@@ -286,6 +292,8 @@ def get_bell_schedule(day: Union[date, dt], this_day: bool = False) -> Dict[str,
                 return HOMEROOM_BELL_SCHEDULE
             elif TERM_DAYS[iso_date][2] == "PTC":
                 return PTC_BELL_SCHEDULE
+            elif TERM_DAYS[iso_date][2] == "Extended Homeroom":
+                return EXTENDED_HOMEROOM_BELL_SCHEDULE
             else:
                 return None
 
@@ -337,6 +345,7 @@ def get_next_class(day: dt, skip_passing: bool = False) -> Optional[Tuple[str, T
     namedtuple object, which includes when said period starts and ends.
 
     Args:
+        skip_passing: Whether to skip passing periods.
         day (datetime.datetime): A datetime object from the datetime library.
 
     Raises:
@@ -377,7 +386,7 @@ def get_next_class(day: dt, skip_passing: bool = False) -> Optional[Tuple[str, T
             return next_class, schedule[next_class]
 
 
-def get_current_period(time: dt) -> Optional[str]:
+def get_current_period(time_of_period: dt) -> Optional[str]:
     """Returns the current period.
 
     Returns the current period, where the first element is a string of the
@@ -385,7 +394,7 @@ def get_current_period(time: dt) -> Optional[str]:
     includes when said period starts and ends.
 
     Args:
-        time (datetime.datetime): A datetime object from the datetime library.
+        time_of_period (datetime.datetime): A datetime object from the datetime library.
 
     Raises:
         errors.InvalidDate: Thrown if the input is not a datetime object.
@@ -396,7 +405,7 @@ def get_current_period(time: dt) -> Optional[str]:
         Optional[str]: A string of the category name (see data/bell_schedule.csv)
     """
 
-    current_class = get_current_class(time)
+    current_class = get_current_class(time_of_period)
 
     if current_class is None:
         return None
