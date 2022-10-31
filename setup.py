@@ -6,7 +6,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="stuy_utils",
-    version="0.0.5",
+    version="0.0.6",
     author="Anthony Chen, ThunderRedStar",
     author_email="anthonychen318@gmail.com, thunderredstar@gmail.com",
     description="Useful functions & utilities for Stuyvesant High School.",
