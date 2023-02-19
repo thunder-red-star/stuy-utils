@@ -5,18 +5,40 @@ from datetime import datetime as dt
 from datetime import time
 from pathlib import Path
 from typing import Dict, Optional, Tuple, Union
+import requests
+import warnings
 
 from stuy_utils import errors
 
 Info = namedtuple("Info", ("school", "cycle", "schedule", "testing", "events"))
 Time = namedtuple("Time", ("start", "end"))
 
-TERM_PATH = f"{Path(__file__).parent}/data/term-days-2023.tsv"
+TERM_PATH = f"{Path(__file__).parent}/data/term-days.tsv"
 REGULAR_BELLS_PATH = f"{Path(__file__).parent}/data/regular.tsv"
 CONFERENCE_BELLS_PATH = f"{Path(__file__).parent}/data/conference.tsv"
 HOMEROOM_BELLS_PATH = f"{Path(__file__).parent}/data/homeroom.tsv"
 PTC_BELLS_PATH = f"{Path(__file__).parent}/data/ptc.tsv"
 EXTENDED_HOMEROOM_BELLS_PATH = f"{Path(__file__).parent}/data/extended_homeroom.tsv"
+
+
+def update_schedule():
+    """Updates term-days.tsv.
+    
+    Makes sure that term-days.tsv is up-to-date by rewriting it with a guaranteed up-to-date version.
+    
+    No args, no raises, no return value.
+    
+    Warns if an exception is encountered when sending a request.
+    """
+    try:
+        r = requests.get("https://docs.google.com/spreadsheets/d/16BQyzd2rp7UP2nj0wx1I7DvopDhm8sZ65-xSEqE1-5c/export?format=tsv&gid=1814525404")
+    except requests.ConnectionError:
+        warnings.warn("Schedule could not update due to a connection error.")
+    except Exception as e:
+        warnings.warn("Schedule could not update due to an exception: {e}")
+    else:
+        with open('text.tsv', 'wb') as f:
+            f.write(r.content)
 
 
 def convert_12h_to_24h(hours12: str) -> str:
@@ -99,6 +121,7 @@ def convert_24h_to_minutes(hours24: str) -> int:
     return int(hours) * 60 + int(minutes)
 
 
+update_schedule()
 with open(TERM_PATH, "r") as term_tsv, open(REGULAR_BELLS_PATH, "r") as regular_tsv, open(CONFERENCE_BELLS_PATH,
                                                                                           "r") as conference_tsv, open(
     HOMEROOM_BELLS_PATH, "r") as homeroom_tsv:
