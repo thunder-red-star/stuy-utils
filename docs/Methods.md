@@ -1,3 +1,22 @@
+## schedule.update_schedule()
+
+> Updates term-days.tsv.
+
+Makes sure that term-days.tsv is up-to-date by rewriting it with a guaranteed up-to-date version. This method is only useful outside of the package code only for detecting any exceptions that may occur inside of this method.
+
+### Args
+
+- No arguments.
+
+### Raises
+
+- No raises.
+- Exceptions are warned and ignored.
+
+### Returns
+
+- No return values
+
 ## schedule.convert_to_isoformat(day)
 
 > Convert a date object to an ISO-formatted date string.
